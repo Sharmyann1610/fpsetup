@@ -1,80 +1,135 @@
-### Software installation guide
+# Fundamentals of Programming October 2025
+Berry Boessenkool
+2025-10-24, 09:30
 
-**for the course 'Fundamentals of Programming'**
+Hey everyone! Welcome to Fundamentals of Programming 2025/26!  
+This is a github task in the course
+[FP25](https://open.hpi.de/courses/hpi-dh-fprog2025).
 
-We want to
+*note that it is fine to not really understand the code at this point -
+we’ll get to that throughout the course :)*
 
-- mix Python and R code in quarto markdown documents (more in lesson I1.5)
-- try two IDEs to find out what we like about each
-- have our exercises scored from within our IDEs (more in lesson I1.3)
+Please go through the new [installation
+guide](https://github.com/brry/fpsetup#software-installation-guide)
+first!
 
-so we have a lot of software to install.  
-It's a bit much at once, but it will be worth it!  
+## Get weather data
 
-Any improvements to the guide are very welcome!
+``` r
+if(!requireNamespace("rdwd", quietly=TRUE))
+    install.packages("rdwd")
+rdwd::updateRdwd()
+```
 
-- <mark>Step 1a</mark>: install [R + Rstudio](https://bookdown.org/brry/course/install.html), including the Rdata settings
-- <mark>Step 1b</mark>: check if R is on the PATH (locations where executables are found):
-  - in your OS, search (Windows: `Windows key`. Mac: `CMD`+`SPACE`) for "**Terminal**" (a.k.a. console, shell, bash, cmd)  
-  - run the command `R` (Windows Powershell: `R.exe`) - check if it's a recent version, quit with `q("no")`
-  - if R is not found / recognized, add it to the _system_ (not user) PATH:
-    - copy the path where you installed R  -  or  - in Rstudio -> Tools -> Global Options, copy the path (e.g. `C:\Program Files\R\R-4.5.1)` 
-    - search (`Windows key`)  for "env", click "Edit the system environment variables", then "Environment Variables" ([guide with images](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/))
-    - under "**System** Variables" double click on "Path"
-    - click "New" and copy-paste your installation location (if from Rstudio, add `\bin` at the end)
-    - close the variable windows + the terminal, open a new one and try `R`/`R.exe` again.  
-      Potentially restart Windows inbetween.
+    * checking for file ‘/private/var/folders/ft/3smmr6493kl4pqd5n7fvrrn40000gn/T/RtmpVLKDuf/remotes85f8181e95/brry-rdwd-512669b/DESCRIPTION’ ... OK
+    * preparing ‘rdwd’:
+    * checking DESCRIPTION meta-information ... OK
+    * installing the package to build vignettes
+    * creating vignettes ... OK
+    * checking for LF line-endings in source and make files and shell scripts
+    * checking for empty or unneeded directories
+    Removed empty directory ‘rdwd/.github’
+    * looking to see if a ‘data/datalist’ file should be added
+    * building ‘rdwd_1.9.4.tar.gz’
 
- ~
+download recent weather data using
+[rdwd](https://bookdown.org/brry/rdwd/)
 
-- <mark>Step 2a</mark>: install [git](https://bookdown.org/brry/course/git.html), including the SSH key setup.  
-  If you already have a personal github account, use that :)
-- <mark>Step 2b</mark>: follow the [use git](https://bookdown.org/brry/course/git.html#use-git) section to download these instructions
-- <mark>Step 2c</mark>: run `setup_Rpackages.R`. Tip: Use the Files pane (Rstudio bottom right) to select and open the file.
+``` r
+library(rdwd)
+link <- selectDWD("Potsdam", res="daily", var="kl", per="recent")
+clim <- dataDWD(link, base=sub("^ftp://","",dwdbase), varnames=TRUE, force=24)
+```
 
-~
+## Visualise recent temperature
 
-- <mark>Step 3a</mark>: install Python with one of
-  - standalone installation: [Python](https://www.python.org/downloads/), hints on [Windows](https://docs.python.org/using/windows.html)
-  - installation from R (way easier, especially on Mac): run `setup_Python.R` line by line
-- <mark>Step 3b</mark>: install Python modules:
-  - on Windows / if you use the system Python, run in the terminal:  
-    `pip install numpy pandas matplotlib` (pip3 instead of pip on Mac)
-  - else, in an R console (e.g. in Rstudio), run  
-    `reticulate::py_install(c("numpy", "pandas", "matplotlib"))`
-- <mark>Step 3c</mark>: run `check_python_setup.py` (`CTRL`/`CMD`+`SHIFT`+`S`)
+``` r
+plotDWD(clim, "TMK.Lufttemperatur", ylab = "mean air temperature (in °C)", col = "darkgreen")
+```
 
-~
+![](README_files/figure-commonmark/plot_clim-1.png)
 
-- <mark>Step 4a</mark>: install [VScode](https://code.visualstudio.com/Download)  
-  When prompted: manage restricted mode - add folder, click 'trust'
-- <mark>Step 4b</mark>: disable [telemetry](https://www.roboleary.net/tools/2022/04/20/vscode-telemetry.html) if you don't want to send data to Micro$oft
-- <mark>Step 4c</mark>: run R scripts in VScode:
-  - open (`CTRL`+`O` or Explorer Tab `CTRL`+`SHIFT`+`E`) the file `setup_cran_mirror.R`
-  - install the R extension when prompted (or manually under Extensions (`CTRL`/`CMD`+`SHIFT`+`X`))
-  - run the file
-  - edit and save the Rprofile file
-- <mark>Step 4d</mark>: run Python scripts in VScode:
-  - open `check_python_setup.py`
-  - install the Python extension when prompted (or manually)
-  - open the Settings (`CTRL`+`,`), search 'execin', check the box for `Python > Terminal: execute in file dir` ([Source](https://stackoverflow.com/a/65835091))
-  - now run `check_python_setup.py` (if errors are raised, go back to Step 3b)
-- <mark>Step 4e</mark>: run qmd scripts in VScode:
-  - open `check_quarto.qmd` 
-  - install the Quarto extension when prompted (or manually)
-  - render (a.k.a. compile) `check_quarto.qmd` as instructed inside
+## Visualise recent Wind Speed
 
-~
+``` r
+plotDWD(clim, "FX.Windspitze")
+```
 
-- <mark>Step 5</mark>: in an R console (e.g. in Rstudio), run `remotes::install_github("openHPI/codeoceanR")`  
-  Ignore the Rtools warning.  
-  If you encounter issues, see these [solutions](https://github.com/openHPI/codeoceanR#issues).
-- <mark>Step 6</mark>: housekeeping:
-  - on Windows: in the File explorer, click the "View" tab , then "Show" and check the boxes for "File name extensions" and "Hidden items"
-  - on Mac: in any Finder folder, press `Command`+`Shift`+`.` to  show hidden files
+![](README_files/figure-commonmark/plot_Wind_Speed-1.png)
 
-You made it through! 🎉  
-Now you're set up for the rest of the course (and beyond).
+## Transfer to Python
 
-*Again: improvements to this guide are very welcome!*
-print("Hello guys, Excited to learn Python & R")
+``` python
+clim_py = r.clim
+import matplotlib
+print(f"Dataset shape: {clim_py.shape[0]} rows, {clim_py.shape[1]} columns")
+```
+
+``` python
+clim_py = clim_py.select_dtypes(include=['float64', 'int64'])
+clim_py.hist(figsize=(20, 16), bins=5)
+```
+
+![](README_files/figure-commonmark/histograms-1.png)
+
+## Calculate Summary Statistics and Identify Extreme Days
+
+``` python
+# Calculate and display some basic statistics
+print("\n=== Summary Statistics for Temperature ===")
+```
+
+
+    === Summary Statistics for Temperature ===
+
+``` python
+temp_stats = clim_py['TMK.Lufttemperatur'].describe()
+print(temp_stats)
+```
+
+    count    550.000000
+    mean      12.994545
+    std        7.096378
+    min       -4.800000
+    25%        7.850000
+    50%       14.150000
+    75%       18.700000
+    max       29.200000
+    Name: TMK.Lufttemperatur, dtype: float64
+
+``` python
+# Find and display the maximum and minimum temperature days
+print("\n=== Extreme Temperature Days ===")
+```
+
+
+    === Extreme Temperature Days ===
+
+``` python
+max_temp_idx = clim_py['TMK.Lufttemperatur'].idxmax()
+min_temp_idx = clim_py['TMK.Lufttemperatur'].idxmin()
+
+print(f"Hottest day: {r.clim.loc[max_temp_idx, 'MESS_DATUM']} with {clim_py.loc[max_temp_idx, 'TMK.Lufttemperatur']:.1f}°C")
+```
+
+    Hottest day: 2025-07-02 with 29.2°C
+
+``` python
+print(f"Coldest day: {r.clim.loc[min_temp_idx, 'MESS_DATUM']} with {clim_py.loc[min_temp_idx, 'TMK.Lufttemperatur']:.1f}°C")
+```
+
+    Coldest day: 2025-02-17 with -4.8°C
+
+``` python
+print("Hello guys! Excited to learn Python by Sharmy")
+```
+
+    Hello guys! Excited to learn Python by Sharmy
+
+    Yazan added this chunk as part of the first homework
+
+    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+    wishing everyone a good start
+
+    I love programming
