@@ -1,6 +1,6 @@
 # Fundamentals of Programming October 2025
 Berry Boessenkool
-2025-10-24, 16:06
+2025-10-24, 16:10
 
 Hey everyone! Welcome to Fundamentals of Programming 2025/26!  
 This is a github task in the course
