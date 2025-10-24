@@ -1,6 +1,6 @@
 # Fundamentals of Programming October 2025
 Berry Boessenkool
-2025-10-24, 09:30
+2025-10-24, 16:06
 
 Hey everyone! Welcome to Fundamentals of Programming 2025/26!  
 This is a github task in the course
@@ -20,17 +20,6 @@ if(!requireNamespace("rdwd", quietly=TRUE))
     install.packages("rdwd")
 rdwd::updateRdwd()
 ```
-
-    * checking for file ‘/private/var/folders/ft/3smmr6493kl4pqd5n7fvrrn40000gn/T/RtmpVLKDuf/remotes85f8181e95/brry-rdwd-512669b/DESCRIPTION’ ... OK
-    * preparing ‘rdwd’:
-    * checking DESCRIPTION meta-information ... OK
-    * installing the package to build vignettes
-    * creating vignettes ... OK
-    * checking for LF line-endings in source and make files and shell scripts
-    * checking for empty or unneeded directories
-    Removed empty directory ‘rdwd/.github’
-    * looking to see if a ‘data/datalist’ file should be added
-    * building ‘rdwd_1.9.4.tar.gz’
 
 download recent weather data using
 [rdwd](https://bookdown.org/brry/rdwd/)
@@ -120,12 +109,6 @@ print(f"Coldest day: {r.clim.loc[min_temp_idx, 'MESS_DATUM']} with {clim_py.loc[
 
     Coldest day: 2025-02-17 with -4.8°C
 
-``` python
-print("Hello guys! Excited to learn Python by Sharmy")
-```
-
-    Hello guys! Excited to learn Python by Sharmy
-
     Yazan added this chunk as part of the first homework
 
     ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
@@ -133,3 +116,9 @@ print("Hello guys! Excited to learn Python by Sharmy")
     wishing everyone a good start
 
     I love programming
+
+``` python
+print("Hi guys, Excited to learn Python by Sharmy")
+```
+
+    Hi guys, Excited to learn Python by Sharmy
