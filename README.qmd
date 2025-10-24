@@ -73,7 +73,7 @@ min_temp_idx = clim_py['TMK.Lufttemperatur'].idxmin()
 
 print(f"Hottest day: {r.clim.loc[max_temp_idx, 'MESS_DATUM']} with {clim_py.loc[max_temp_idx, 'TMK.Lufttemperatur']:.1f}°C")
 print(f"Coldest day: {r.clim.loc[min_temp_idx, 'MESS_DATUM']} with {clim_py.loc[min_temp_idx, 'TMK.Lufttemperatur']:.1f}°C")
-print("Hello guys! Excited to learn Python by Sharmy")
+
 ```
 
 ```{python, yazan_chunk, echo=FALSE}
@@ -89,4 +89,8 @@ print(alphabets)
 print("wishing everyone a good start")
 print("I love programming")
 ```
+```{python, my_first_change}
+print("Hi guys, Excited to learn Python by Sharmy")
+```
+
 
